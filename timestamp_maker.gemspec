@@ -9,6 +9,7 @@ Gem::Specification.new do |s|
   s.authors     = ['Weihang Jian']
   s.email       = 'tonytonyjan@gmail.com'
   s.files       = Dir['lib/**/*.rb'] + Dir['bin/*']
+  s.executables << 'timestamp'
   s.metadata    = { 'source_code_uri' => 'https://github.com/tonytonyjan/timestamp_maker' }
   s.add_runtime_dependency 'marcel', '~> 1.0'
   s.add_development_dependency 'minitest', '~> 5.14'
