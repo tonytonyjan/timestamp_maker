@@ -1,0 +1,6 @@
+= timestamp_maker
+
+== Prerequisite
+
+. `https://ffmpeg.org/[ffmpeg]`
+. `https://imagemagick.org/index.php[imagemagick]`
