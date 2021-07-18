@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name        = 'timestamp_maker'
-  s.version     = '1.0.1'
+  s.version     = '1.0.2'
   s.licenses    = ['MIT']
   s.summary     = 'timestamp_maker is a command-line tool that adds timestamp to images and videos.'
   s.description = 'timestamp_maker is a command-line tool that adds timestamp to images and videos.'
