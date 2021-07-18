@@ -7,8 +7,8 @@ require 'shellwords'
 
 module TimestampMaker
   module VideoTimestamper
-    def self.add_timestamp(input_path, output_path)
-      creation_timestamp = creation_time(input_path).to_i
+    def self.add_timestamp(input_path, output_path, time)
+      creation_timestamp = time.to_i
       drawtext = %W[
         x=32
         y=32

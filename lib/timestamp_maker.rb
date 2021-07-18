@@ -22,7 +22,8 @@ module TimestampMaker
         when 'video' then video_timestamper
         else raise "Unsupported MIME type: ##{mime_type}"
         end
-      processor.add_timestamp(input_path, output_path)
+      time = processor.creation_time(input_path)
+      processor.add_timestamp(input_path, output_path, time)
     end
   end
 end
