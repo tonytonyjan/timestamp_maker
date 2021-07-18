@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'timestamp_maker'
+require 'optparse'
+
+option_parser = OptionParser.new do |opts|
+  opts.banner = "Usage: #{__FILE__} INPUT_FILE_PATH OUTPUT_FILE_PATH"
+end
+option_parser.parse!
+
+if ARGV.length != 2
+  puts option_parser
+  exit 1
+end
+
+input = ARGV.shift
+output = ARGV.shift
+
+TimestampMaker.add_timestamp(input, output)
