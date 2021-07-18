@@ -7,6 +7,13 @@
 . https://ffmpeg.org/[FFmpeg]
 . https://imagemagick.org/index.php[ImageMagick]
 
+== Installation
+
+[source,sh]
+----
+gem install timestamp_maker
+----
+
 == Usage
 
 === CLI
@@ -16,10 +23,13 @@
 timestamp in.jpg out.jpg
 ----
 
-[source,sh]
-----
-timestamp in.mp4 out.mp4
-----
+==== Before
+
+image::images/in.jpg[]
+
+==== After
+
+image::images/out.jpg[]
 
 === Ruby
 
