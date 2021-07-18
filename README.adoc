@@ -1,6 +1,31 @@
 = timestamp_maker
 
+`timestamp_maker` is a command-line tool that adds timestamp on either image or video.
+
 == Prerequisite
 
-. `https://ffmpeg.org/[ffmpeg]`
-. `https://imagemagick.org/index.php[imagemagick]`
+. https://ffmpeg.org/[FFmpeg]
+. https://imagemagick.org/index.php[ImageMagick]
+
+== Usage
+
+=== CLI
+
+[source,sh]
+----
+timestamp in.jpg out.jpg
+----
+
+[source,sh]
+----
+timestamp in.mp4 out.mp4
+----
+
+=== Ruby
+
+[source,ruby]
+----
+require 'timestamp_maker'
+
+TimestampMaker.add_timestamp(input_path, output_path)
+----
