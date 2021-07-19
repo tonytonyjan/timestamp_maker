@@ -4,8 +4,8 @@ Gem::Specification.new do |s|
   s.name        = 'timestamp_maker'
   s.version     = '1.0.2'
   s.licenses    = ['MIT']
-  s.summary     = 'timestamp_maker is a command-line tool that adds timestamp to images and videos.'
-  s.description = 'timestamp_maker is a command-line tool that adds timestamp to images and videos.'
+  s.summary     = 'timestamp_maker is a command-line tool that adds timestamp on assets/videos based on their creation time.'
+  s.description = 'timestamp_maker is a command-line tool that adds timestamp on assets/videos based on their creation time.'
   s.authors     = ['Weihang Jian']
   s.email       = 'tonytonyjan@gmail.com'
   s.files       = Dir['lib/**/*.rb'] + Dir['bin/*']
