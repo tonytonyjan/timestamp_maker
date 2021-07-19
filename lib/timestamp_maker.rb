@@ -14,7 +14,7 @@ module TimestampMaker
   class << self
     attr_reader :mime_recognizer, :image_timestamper, :video_timestamper
 
-    def add_timestamp(input_path, output_path)
+    def add_timestamp(input_path, output_path, format: '%Y-%m-%d %H:%M:%S')
       mime_type = mime_recognizer.recognize(input_path)
       processor =
         case mime_type.split('/').first
@@ -23,7 +23,7 @@ module TimestampMaker
         else raise "Unsupported MIME type: ##{mime_type}"
         end
       time = processor.creation_time(input_path)
-      processor.add_timestamp(input_path, output_path, time)
+      processor.add_timestamp(input_path, output_path, time, format: format)
     end
   end
 end

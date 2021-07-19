@@ -4,8 +4,16 @@
 require 'timestamp_maker'
 require 'optparse'
 
-option_parser = OptionParser.new do |opts|
-  opts.banner = "Usage: #{__FILE__} INPUT_FILE_PATH OUTPUT_FILE_PATH"
+options = {
+  format: '%Y-%m-%d %H:%M:%S'
+}
+
+option_parser = OptionParser.new do |parser|
+  parser.banner = "Usage: #{__FILE__} [options] INPUT_FILE_PATH OUTPUT_FILE_PATH"
+
+  parser.on('-f FORMAT', '--format FORMAT', 'strftime() format string, defaults to "%Y-%m-%d %H:%M:%S"') do |value|
+    options[:format] = value
+  end
 end
 option_parser.parse!
 
@@ -17,4 +25,8 @@ end
 input = ARGV.shift
 output = ARGV.shift
 
-TimestampMaker.add_timestamp(input, output)
+TimestampMaker.add_timestamp(
+  input,
+  output,
+  format: options[:format]
+)

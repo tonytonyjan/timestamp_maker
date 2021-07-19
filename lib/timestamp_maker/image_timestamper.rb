@@ -5,8 +5,8 @@ require 'time'
 
 module TimestampMaker
   module ImageTimestamper
-    def self.add_timestamp(input_path, output_path, time)
-      time_string = time.iso8601
+    def self.add_timestamp(input_path, output_path, time, format:)
+      time_string = time.strftime(format)
       command = %W[
         magick convert #{input_path}
         (

@@ -7,8 +7,9 @@ require 'shellwords'
 
 module TimestampMaker
   module VideoTimestamper
-    def self.add_timestamp(input_path, output_path, time)
+    def self.add_timestamp(input_path, output_path, time, format:)
       creation_timestamp = time.to_i
+      text = "%{pts:localtime:#{creation_timestamp}:#{escape_text_expansion_argument(format)}}"
       drawtext = %W[
         x=32
         y=32
@@ -18,12 +19,15 @@ module TimestampMaker
         box=1
         boxcolor=black@0.7
         boxborderw=8
-        text=%{pts\\\\:localtime\\\\:#{creation_timestamp}}
+        text=#{escape_filter_description_value(text)}
       ].join(':')
 
       command = %W[
-        ffmpeg -y -v warning -i #{input_path} -map_metadata 0
-        -vf drawtext=#{drawtext}
+        ffmpeg -y
+        -v warning
+        -i #{input_path}
+        -map_metadata 0
+        -vf drawtext=#{escape_filter_description(drawtext)}
         #{output_path}
       ]
 
@@ -42,6 +46,18 @@ module TimestampMaker
       raise 'Cannot find creation time' if iso8601_string.nil?
 
       Time.iso8601(iso8601_string)
+    end
+
+    def self.escape_text_expansion_argument(string)
+      string.gsub(/[:{}]/, '\\\\\\&')
+    end
+
+    def self.escape_filter_description_value(string)
+      string.gsub(/[:\\']/, '\\\\\\&')
+    end
+
+    def self.escape_filter_description(string)
+      string.gsub(/[\\'\[\],;]/, '\\\\\\&')
     end
   end
 end
