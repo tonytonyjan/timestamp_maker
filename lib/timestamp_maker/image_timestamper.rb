@@ -5,7 +5,26 @@ require 'time'
 
 module TimestampMaker
   module ImageTimestamper
-    def self.add_timestamp(input_path, output_path, time, format:, font_size:, font_family:, font_color:, background_color:)
+    GRAVITY_MAP = {
+      'top-left' => 'NorthWest',
+      'top-right' => 'NorthEast',
+      'bottom-left' => 'SouthWest',
+      'bottom-right' => 'SouthEast'
+    }.freeze
+
+    def self.add_timestamp(
+      input_path,
+      output_path,
+      time,
+      format:,
+      font_size:,
+      font_family:,
+      font_color:,
+      background_color:,
+      coordinate_origin:,
+      x:,
+      y:
+    )
       time_string = time.strftime(format)
       command = %W[
         magick convert #{input_path}
@@ -20,7 +39,9 @@ module TimestampMaker
         -splice 8x8
         label:#{time_string}
         )
-        -gravity NorthWest -geometry +32+32 -composite #{output_path}
+        -gravity #{GRAVITY_MAP[coordinate_origin]}
+        -geometry +#{x}+#{y}
+        -composite #{output_path}
       ]
       system(*command, exception: true)
     end

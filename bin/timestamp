@@ -12,7 +12,10 @@ options = {
   font_size: 32,
   font_family: 'Sans',
   font_color: 'white',
-  background_color: '#000000B3'
+  background_color: '#000000B3',
+  coordinate_origin: 'top-left',
+  x: 32,
+  y: 32
 }
 
 option_parser = OptionParser.new do |parser|
@@ -49,6 +52,18 @@ option_parser = OptionParser.new do |parser|
   parser.on('--time-zone TIME_ZONE', 'IANA time zone. By default, retrieves from media file\'s metadata') do |value|
     options[:time_zone] = value
   end
+
+  parser.on('--coordinate-origin ORIGIN', 'Should be "[top|bottom]-[left|right]". Defaults to "top-left"') do |value|
+    options[:coordinate_origin] = value
+  end
+
+  parser.on('-x X', Integer, 'coordinate x. Defaults to 32.') do |value|
+    options[:x] = value
+  end
+
+  parser.on('-y Y', Integer, 'coordinate y, Defaults to 32.') do |value|
+    options[:y] = value
+  end
 end
 option_parser.parse!
 
@@ -69,5 +84,8 @@ TimestampMaker.add_timestamp(
   font_size: options[:font_size],
   font_family: options[:font_family],
   font_color: options[:font_color],
-  background_color: options[:background_color]
+  background_color: options[:background_color],
+  coordinate_origin: options[:coordinate_origin],
+  x: options[:x],
+  y: options[:y]
 )

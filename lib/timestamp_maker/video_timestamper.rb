@@ -7,12 +7,22 @@ require 'open3'
 module TimestampMaker
   module VideoTimestamper
     class << self
-      def add_timestamp(input_path, output_path, time, format:, font_size:, font_family:, font_color:, background_color:)
+      def add_timestamp(
+        input_path,
+        output_path,
+        time,
+        format:,
+        font_size:,
+        font_family:,
+        font_color:,
+        background_color:,
+        coordinate_origin:,
+        x:,
+        y:
+      )
         creation_timestamp = time.to_i
         text = "%{pts:localtime:#{creation_timestamp}:#{escape_text_expansion_argument(format)}}"
-        drawtext = %W[
-          x=32
-          y=32
+        drawtext = "#{coord_map(coordinate_origin, x, y)}:" << %W[
           font=#{escape_filter_description_value(font_family)}
           fontsize=#{font_size}
           fontcolor=#{font_color}
@@ -70,6 +80,15 @@ module TimestampMaker
       end
 
       private
+
+      def coord_map(coordinate_origin, x, y)
+        case coordinate_origin
+        when 'top-left' then "x=#{x}:y=#{y}"
+        when 'top-right' then "x=w-tw-#{x}:y=#{y}"
+        when 'bottom-left' then "x=#{x}:y=h-th-#{y}"
+        when 'bottom-right' then "x=w-tw-#{x}:y=h-th-#{y}"
+        end
+      end
 
       def escape_text_expansion_argument(string)
         string.gsub(/[:{}]/, '\\\\\\&')
