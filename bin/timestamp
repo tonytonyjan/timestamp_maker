@@ -3,9 +3,11 @@
 
 require 'timestamp_maker'
 require 'optparse'
+require 'optparse/time'
 
 options = {
-  format: '%Y-%m-%d %H:%M:%S'
+  format: '%Y-%m-%d %H:%M:%S',
+  time: nil
 }
 
 option_parser = OptionParser.new do |parser|
@@ -13,6 +15,15 @@ option_parser = OptionParser.new do |parser|
 
   parser.on('-f FORMAT', '--format FORMAT', 'strftime() format string, defaults to "%Y-%m-%d %H:%M:%S"') do |value|
     options[:format] = value
+  end
+
+  parser.on(
+    '-t TIME',
+    '--time TIME', Time,
+    'ISO 8601 or RFC 2616 string, it attempts to parse using a heuristic. '\
+    'By default, trys to retrieve creation time from file metadata like EXIF.'
+  ) do |value|
+    options[:time] = value
   end
 end
 option_parser.parse!
@@ -28,5 +39,6 @@ output = ARGV.shift
 TimestampMaker.add_timestamp(
   input,
   output,
-  format: options[:format]
+  format: options[:format],
+  time: options[:time]
 )
