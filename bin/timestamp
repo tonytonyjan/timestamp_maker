@@ -17,32 +17,32 @@ options = {
 option_parser = OptionParser.new do |parser|
   parser.banner = "Usage: #{__FILE__} [options] INPUT_FILE_PATH OUTPUT_FILE_PATH"
 
-  parser.on('-f FORMAT', '--format FORMAT', 'strftime() format string, defaults to "%Y-%m-%d %H:%M:%S"') do |value|
+  parser.on('-f FORMAT', '--format FORMAT', 'strftime() format string, defaults to "%Y-%m-%d %H:%M:%S".') do |value|
     options[:format] = value
   end
 
   parser.on(
     '-t TIME',
     '--time TIME', Time,
-    'ISO 8601 or RFC 2616 string, it attempts to parse using a heuristic. '\
+    'ISO 8601 or RFC 2616 string. '\
     'By default, trys to retrieve creation time from file metadata like EXIF.'
   ) do |value|
     options[:time] = value
   end
 
-  parser.on('--font-size NUMBER', Integer, 'Font size. Defaults to 32.') do |value|
+  parser.on('--font-size NUMBER', Integer, 'Defaults to 32.') do |value|
     options[:font_size] = value
   end
 
-  parser.on('--font-family FONT_FAMILY', 'Font family, Defaults to "Sans"') do |value|
+  parser.on('--font-family FONT_FAMILY', 'Defaults to "Sans"') do |value|
     options[:font_family] = value
   end
 
-  parser.on('--font-color COLOR_CODE', '"#RRGGBB[AA]" or color name, Defaults to "white"') do |value|
+  parser.on('--font-color COLOR', '"#RRGGBB[AA]" or color name, Defaults to "white"') do |value|
     options[:font_color] = value
   end
 
-  parser.on('--background-color COLOR_CODE', '"#RRGGBB[AA]" or color name, Defaults to "#000000B3"') do |value|
+  parser.on('--background-color COLOR', '"#RRGGBB[AA]" or color name, Defaults to "#000000B3"') do |value|
     options[:background_color] = value
   end
 end
