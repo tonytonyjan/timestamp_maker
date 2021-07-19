@@ -23,7 +23,7 @@ module TimestampMaker
       )
         creation_timestamp = time.to_i
         text = "%{pts:localtime:#{creation_timestamp}:#{escape_text_expansion_argument(format)}}"
-        drawtext = "#{coord_map(coordinate_origin, x, y)}:" << %W[
+        drawtext = +"#{coord_map(coordinate_origin, x, y)}:" << %W[
           font=#{escape_filter_description_value(font_family)}
           fontsize=#{font_size}
           fontcolor=#{font_color}
