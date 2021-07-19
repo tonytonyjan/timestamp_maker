@@ -18,7 +18,8 @@ module TimestampMaker
       input_path, output_path,
       format: '%Y-%m-%d %H:%M:%S',
       time: nil,
-      font_size: 32
+      font_size: 32,
+      font_family: 'Sans'
     )
       mime_type = mime_recognizer.recognize(input_path)
       processor =
@@ -33,7 +34,8 @@ module TimestampMaker
       processor.add_timestamp(
         input_path, output_path, time,
         format: format,
-        font_size: font_size
+        font_size: font_size,
+        font_family: font_family
       )
     end
   end

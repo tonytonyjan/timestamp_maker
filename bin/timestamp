@@ -9,6 +9,7 @@ options = {
   format: '%Y-%m-%d %H:%M:%S',
   time: nil,
   font_size: 32,
+  font_family: 'Sans'
 }
 
 option_parser = OptionParser.new do |parser|
@@ -30,6 +31,10 @@ option_parser = OptionParser.new do |parser|
   parser.on('--font-size NUMBER', Integer, 'Font size. Defaults to 32.') do |value|
     options[:font_size] = value
   end
+
+  parser.on('--font-family FONT_FAMILY', 'Font family, Defaults to "Sans"') do |value|
+    options[:font_family] = value
+  end
 end
 option_parser.parse!
 
@@ -46,5 +51,6 @@ TimestampMaker.add_timestamp(
   output,
   format: options[:format],
   time: options[:time],
-  font_size: options[:font_size]
+  font_size: options[:font_size],
+  font_family: options[:font_family]
 )

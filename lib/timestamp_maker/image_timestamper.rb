@@ -5,14 +5,14 @@ require 'time'
 
 module TimestampMaker
   module ImageTimestamper
-    def self.add_timestamp(input_path, output_path, time, format:, font_size:)
+    def self.add_timestamp(input_path, output_path, time, format:, font_size:, font_family:)
       time_string = time.strftime(format)
       command = %W[
         magick convert #{input_path}
         (
         -background rgba(0,0,0,0.7)
         -fill white
-        -font Roboto
+        -family #{font_family}
         -pointsize #{font_size}
         -gravity NorthWest
         -splice 1x1
