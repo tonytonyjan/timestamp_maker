@@ -1,6 +1,6 @@
 = timestamp_maker
 
-`timestamp_maker` is a command-line tool that adds timestamp on images/videos based on their creation time.
+`timestamp_maker` is a command-line tool that adds timestamp on assets/videos based on their creation time.
 
 == Prerequisite
 
@@ -20,10 +20,17 @@ gem install timestamp_maker
 
 [source,sh]
 ----
-timestamp images/in.jpg images/out-1.jpg
+timestamp assets/in.jpg assets/out-1.jpg
 ----
 
-image::images/out-1.jpg[]
+image::assets/out-1.jpg[]
+
+[source,sh]
+----
+timestamp assets/in.mp4 assets/out-1.gif
+----
+
+image::assets/out-1.gif[]
 
 === Customize Appearance
 
@@ -38,22 +45,24 @@ timestamp \
   --background-color '#FFFFFFB7' \
   --coordinate-origin bottom-right \
   -x 6 -y 6 \
-  images/in.jpg images/out-2.jpg
+  assets/in.jpg assets/out-2.jpg
 ----
 
-image::images/out-2.jpg[]
+image::assets/out-2.jpg[]
 
 === Customize Time
 
 [source,sh]
 ----
 timestamp \
-  --time-zone Asia/Tokyo \
-  --time 1989-11-23T11:23:00Z \
-  images/in.jpg images/out-3.jpg
+  --time-zone America/New_York \
+  --time '2017-03-12T01:59:56-05:00' \
+  assets/in.mp4 assets/out-2.gif
 ----
 
-image::images/out-3.jpg[]
+image::assets/out-2.gif[]
+
+It handles daylight saving time for you. :)
 
 Run `timestamp --help` for more information.
 
