@@ -7,7 +7,7 @@ require 'open3'
 module TimestampMaker
   module VideoTimestamper
     class << self
-      def add_timestamp(input_path, output_path, time, format:, font_size:, font_family:)
+      def add_timestamp(input_path, output_path, time, format:, font_size:, font_family:, font_color:)
         creation_timestamp = time.to_i
         text = "%{pts:localtime:#{creation_timestamp}:#{escape_text_expansion_argument(format)}}"
         drawtext = %W[
@@ -15,7 +15,7 @@ module TimestampMaker
           y=32
           font=#{escape_filter_description_value(font_family)}
           fontsize=#{font_size}
-          fontcolor=white
+          fontcolor=#{font_color}
           box=1
           boxcolor=black@0.7
           boxborderw=8

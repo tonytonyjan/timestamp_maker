@@ -9,7 +9,8 @@ options = {
   format: '%Y-%m-%d %H:%M:%S',
   time: nil,
   font_size: 32,
-  font_family: 'Sans'
+  font_family: 'Sans',
+  font_color: 'white'
 }
 
 option_parser = OptionParser.new do |parser|
@@ -35,6 +36,10 @@ option_parser = OptionParser.new do |parser|
   parser.on('--font-family FONT_FAMILY', 'Font family, Defaults to "Sans"') do |value|
     options[:font_family] = value
   end
+
+  parser.on('--font-color COLOR_CODE', '"#RRGGBB[AA]" or color name, Defaults to "white"') do |value|
+    options[:font_color] = value
+  end
 end
 option_parser.parse!
 
@@ -52,5 +57,6 @@ TimestampMaker.add_timestamp(
   format: options[:format],
   time: options[:time],
   font_size: options[:font_size],
-  font_family: options[:font_family]
+  font_family: options[:font_family],
+  font_color: options[:font_color]
 )
