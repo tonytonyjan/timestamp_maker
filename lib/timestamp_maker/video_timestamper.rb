@@ -3,6 +3,7 @@
 require 'json'
 require 'time'
 require 'open3'
+require 'English'
 
 module TimestampMaker
   module VideoTimestamper
@@ -56,12 +57,12 @@ module TimestampMaker
                   when '-' then '+'
                   else raise "Cannot parse time zone: #{string}"
                   end
-                "#{sign}#{string[1..]}"
+                "#{sign}#{string[1..-1]}"
               end
             end
           else raise TypeError
           end
-        system({ 'TZ' => tz }, *command, exception: true)
+        raise "Command failed with exit #{$CHILD_STATUS.exitstatus}: #{command.first}" unless system({ 'TZ' => tz }, *command)
       end
 
       def creation_time(input_path)

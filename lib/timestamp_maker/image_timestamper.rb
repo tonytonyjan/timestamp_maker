@@ -2,6 +2,7 @@
 
 require 'open3'
 require 'time'
+require 'English'
 
 module TimestampMaker
   module ImageTimestamper
@@ -44,7 +45,7 @@ module TimestampMaker
         -geometry +#{x}+#{y}
         -composite #{output_path}
       ]
-      system(*command, exception: true)
+      raise "Command failed with exit #{$CHILD_STATUS.exitstatus}: #{command.first}" unless system(*command)
     end
 
     def self.creation_time(input_path)
@@ -55,7 +56,7 @@ module TimestampMaker
       stdout_string, status = Open3.capture2(*command)
       raise unless status.success?
 
-      parsed = Hash[stdout_string.split("\n").map!{ _1[5..].split('=') }]
+      parsed = Hash[stdout_string.split("\n").map! { |i| i[5..-1].split('=') }]
 
       time_string = parsed['DateTimeOriginal'] || parsed['DateTimeDigitized'] || parsed['DateTime']
       raise 'Cannot find creation time' if time_string.nil?
