@@ -18,7 +18,8 @@ module TimestampMaker
         background_color:,
         coordinate_origin:,
         x:,
-        y:
+        y:,
+        font_padding:
       )
         creation_timestamp = time.to_i
         text = "%{pts:localtime:#{creation_timestamp}:#{escape_text_expansion_argument(format)}}"
@@ -28,7 +29,7 @@ module TimestampMaker
           fontcolor=#{font_color}
           box=1
           boxcolor=#{background_color}
-          boxborderw=8
+          boxborderw=#{font_padding}
           text=#{escape_filter_description_value(text)}
         ].join(':')
 

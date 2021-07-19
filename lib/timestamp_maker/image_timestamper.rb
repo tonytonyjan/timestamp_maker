@@ -23,7 +23,8 @@ module TimestampMaker
       background_color:,
       coordinate_origin:,
       x:,
-      y:
+      y:,
+      font_padding:
     )
       time_string = time.strftime(format)
       command = %W[
@@ -34,9 +35,9 @@ module TimestampMaker
         -family #{font_family}
         -pointsize #{font_size}
         -gravity NorthWest
-        -splice 8x8
+        -splice #{font_padding}x#{font_padding}
         -gravity SouthEast
-        -splice 8x8
+        -splice #{font_padding}x#{font_padding}
         label:#{time_string}
         )
         -gravity #{GRAVITY_MAP[coordinate_origin]}

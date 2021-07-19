@@ -15,7 +15,8 @@ options = {
   background_color: '#000000B3',
   coordinate_origin: 'top-left',
   x: 32,
-  y: 32
+  y: 32,
+  font_padding: 8
 }
 
 option_parser = OptionParser.new do |parser|
@@ -64,6 +65,10 @@ option_parser = OptionParser.new do |parser|
   parser.on('-y Y', Integer, 'coordinate y, Defaults to 32.') do |value|
     options[:y] = value
   end
+
+  parser.on('--font-padding NUM', Integer, 'Defaults to 8.') do |value|
+    options[:font_padding] = value
+  end
 end
 option_parser.parse!
 
@@ -87,5 +92,6 @@ TimestampMaker.add_timestamp(
   background_color: options[:background_color],
   coordinate_origin: options[:coordinate_origin],
   x: options[:x],
-  y: options[:y]
+  y: options[:y],
+  font_padding: options[:font_padding]
 )

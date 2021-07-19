@@ -33,7 +33,8 @@ module TimestampMaker
       time_zone: nil,
       coordinate_origin: 'top-left',
       x: 32,
-      y: 32
+      y: 32,
+      font_padding: 8
     )
       mime_type = mime_recognizer.recognize(input_path)
       processor =
@@ -60,7 +61,8 @@ module TimestampMaker
         background_color: background_color,
         coordinate_origin: coordinate_origin,
         x: x,
-        y: y
+        y: y,
+        font_padding: font_padding
       )
     end
   end

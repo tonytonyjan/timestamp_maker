@@ -1,6 +1,6 @@
 = timestamp_maker
 
-`timestamp_maker` is a command-line tool that adds timestamp on either image or video.
+`timestamp_maker` is a command-line tool that adds timestamp on images/videos based on their creation time.
 
 == Prerequisite
 
@@ -16,22 +16,48 @@ gem install timestamp_maker
 
 == Usage
 
-=== CLI
+=== Quick Start
 
 [source,sh]
 ----
-timestamp in.jpg out.jpg
+timestamp images/in.jpg images/out-1.jpg
 ----
 
-==== Before
+image::images/out-1.jpg[]
 
-image::images/in.jpg[]
+=== Customize Appearance
 
-==== After
+[source,sh]
+----
+timestamp \
+  --format '臺北時間：%Y/%m/%d %H:%M:%S' \
+  --font-padding 2 \
+  --font-family 'Noto Sans Mono CJK TC' \
+  --font-size 16 \
+  --font-color black \
+  --background-color '#FFFFFFB7' \
+  --coordinate-origin bottom-right \
+  -x 6 -y 6 \
+  images/in.jpg images/out-2.jpg
+----
 
-image::images/out.jpg[]
+image::images/out-2.jpg[]
 
-=== Ruby
+=== Customize Time
+
+[source,sh]
+----
+timestamp \
+  --time-zone Asia/Tokyo \
+  --time 1989-11-23T11:23:00Z \
+  images/in.jpg images/out-3.jpg
+----
+
+image::images/out-3.jpg[]
+
+Run `timestamp --help` for more information.
+
+=== Use with Ruby
 
 [source,ruby]
 ----
