@@ -6,6 +6,7 @@
 
 . https://ffmpeg.org/[FFmpeg]
 . https://imagemagick.org/index.php[ImageMagick]
+. https://www.iana.org/time-zones[tzdata]
 
 == Installation
 
