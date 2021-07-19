@@ -31,7 +31,26 @@ module TimestampMaker
           #{output_path}
         ]
 
-        system(*command, exception: true)
+        tz =
+          case time.zone
+          when TZInfo::Timezone then time.zone.name
+          when String
+            begin
+              TZInfo::Timezone.get(time.zone).name
+            rescue TZInfo::InvalidTimezoneIdentifier
+              time.strftime('%::z').then do |string|
+                sign =
+                  case string[0]
+                  when '+' then '-'
+                  when '-' then '+'
+                  else raise "Cannot parse time zone: #{string}"
+                  end
+                "#{sign}#{string[1..]}"
+              end
+            end
+          else raise TypeError
+          end
+        system({ 'TZ' => tz }, *command, exception: true)
       end
 
       def creation_time(input_path)

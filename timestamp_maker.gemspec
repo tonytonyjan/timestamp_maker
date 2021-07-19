@@ -13,6 +13,7 @@ Gem::Specification.new do |s|
   s.homepage = 'https://github.com/tonytonyjan/timestamp_maker'
   s.metadata = { 'source_code_uri' => 'https://github.com/tonytonyjan/timestamp_maker' }
   s.add_runtime_dependency 'marcel', '~> 1.0'
+  s.add_runtime_dependency 'tzinfo', '~> 2.0'
   s.add_development_dependency 'minitest', '~> 5.14'
   s.add_development_dependency 'rake', '~> 13.0'
 end

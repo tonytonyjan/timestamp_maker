@@ -8,6 +8,7 @@ require 'optparse/time'
 options = {
   format: '%Y-%m-%d %H:%M:%S',
   time: nil,
+  time_zone: nil,
   font_size: 32,
   font_family: 'Sans',
   font_color: 'white',
@@ -24,8 +25,7 @@ option_parser = OptionParser.new do |parser|
   parser.on(
     '-t TIME',
     '--time TIME', Time,
-    'ISO 8601 or RFC 2616 string. '\
-    'By default, trys to retrieve creation time from file metadata like EXIF.'
+    'ISO 8601 or RFC 2616 string. By default, retrieves from file\'s metadata'
   ) do |value|
     options[:time] = value
   end
@@ -45,6 +45,10 @@ option_parser = OptionParser.new do |parser|
   parser.on('--background-color COLOR', '"#RRGGBB[AA]" or color name, Defaults to "#000000B3"') do |value|
     options[:background_color] = value
   end
+
+  parser.on('--time-zone TIME_ZONE', 'IANA time zone. By default, retrieves from media file\'s metadata') do |value|
+    options[:time_zone] = value
+  end
 end
 option_parser.parse!
 
@@ -61,6 +65,7 @@ TimestampMaker.add_timestamp(
   output,
   format: options[:format],
   time: options[:time],
+  time_zone: options[:time_zone],
   font_size: options[:font_size],
   font_family: options[:font_family],
   font_color: options[:font_color],

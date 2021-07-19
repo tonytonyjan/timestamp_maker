@@ -5,6 +5,7 @@ require 'pathname'
 require 'timestamp_maker/video_timestamper'
 require 'timestamp_maker/mime_recognizer'
 require 'timestamp_maker/image_timestamper'
+require 'tzinfo'
 
 module TimestampMaker
   @mime_recognizer = MimeRecognizer
@@ -21,7 +22,8 @@ module TimestampMaker
       font_size: 32,
       font_family: 'Sans',
       font_color: 'white',
-      background_color: '#000000B3'
+      background_color: '#000000B3',
+      time_zone: nil
     )
       mime_type = mime_recognizer.recognize(input_path)
       processor =
@@ -32,6 +34,8 @@ module TimestampMaker
         end
       time = processor.creation_time(input_path) if time.nil?
       raise ArgumentError unless time.is_a?(Time)
+
+      time.localtime(TZInfo::Timezone.get(time_zone)) unless time_zone.nil?
 
       processor.add_timestamp(
         input_path, output_path, time,
