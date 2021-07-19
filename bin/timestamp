@@ -7,7 +7,8 @@ require 'optparse/time'
 
 options = {
   format: '%Y-%m-%d %H:%M:%S',
-  time: nil
+  time: nil,
+  font_size: 32,
 }
 
 option_parser = OptionParser.new do |parser|
@@ -25,6 +26,10 @@ option_parser = OptionParser.new do |parser|
   ) do |value|
     options[:time] = value
   end
+
+  parser.on('--font-size NUMBER', Integer, 'Font size. Defaults to 32.') do |value|
+    options[:font_size] = value
+  end
 end
 option_parser.parse!
 
@@ -40,5 +45,6 @@ TimestampMaker.add_timestamp(
   input,
   output,
   format: options[:format],
-  time: options[:time]
+  time: options[:time],
+  font_size: options[:font_size]
 )
