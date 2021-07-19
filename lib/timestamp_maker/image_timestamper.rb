@@ -29,7 +29,7 @@ module TimestampMaker
     )
       time_string = time.strftime(format)
       command = %W[
-        magick convert #{input_path}
+        convert #{input_path}
         (
         -background #{background_color}
         -fill #{font_color}
@@ -50,7 +50,7 @@ module TimestampMaker
 
     def self.creation_time(input_path)
       command = %W[
-        magick identify -format %[exif:DateTime*]%[exif:OffsetTime*] #{input_path}
+        identify -format %[exif:DateTime*]%[exif:OffsetTime*] #{input_path}
       ]
 
       stdout_string, status = Open3.capture2(*command)
