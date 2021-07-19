@@ -15,9 +15,9 @@ module TimestampMaker
         -family #{font_family}
         -pointsize #{font_size}
         -gravity NorthWest
-        -splice 1x1
+        -splice 8x8
         -gravity SouthEast
-        -splice 1x1
+        -splice 8x8
         label:#{time_string}
         )
         -gravity NorthWest -geometry +32+32 -composite #{output_path}
