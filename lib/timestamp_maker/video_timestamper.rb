@@ -36,13 +36,15 @@ module TimestampMaker
 
       def creation_time(input_path)
         command = %W[
-          ffprobe -v warning -print_format json -show_entries format_tags=creation_time #{input_path}
+          ffprobe -v warning -print_format json
+          -show_entries format_tags=creation_time,com.apple.quicktime.creationdate
+          #{input_path}
         ]
         stdout_string, status = Open3.capture2(*command)
         raise unless status.success?
 
         parsed = JSON.parse(stdout_string)
-        iso8601_string = parsed['format']['tags']['creation_time']
+        iso8601_string = parsed['format']['tags']['com.apple.quicktime.creationdate'] || parsed['format']['tags']['creation_time']
         raise 'Cannot find creation time' if iso8601_string.nil?
 
         Time.iso8601(iso8601_string)
