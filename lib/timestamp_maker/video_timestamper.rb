@@ -3,7 +3,6 @@
 require 'json'
 require 'time'
 require 'open3'
-require 'shellwords'
 
 module TimestampMaker
   module VideoTimestamper
@@ -36,7 +35,7 @@ module TimestampMaker
 
     def self.creation_time(input_path)
       command = %W[
-        ffprobe -v warning -print_format json -show_entries format_tags=creation_time #{Shellwords.escape(input_path)}
+        ffprobe -v warning -print_format json -show_entries format_tags=creation_time #{input_path}
       ]
       stdout_string, status = Open3.capture2(*command)
       raise unless status.success?
