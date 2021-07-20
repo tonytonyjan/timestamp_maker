@@ -1,0 +1,35 @@
+name: Test
+on:
+  push:
+    branches: [master]
+jobs:
+  test:
+    strategy:
+      matrix:
+        ruby:
+          [
+            "2.5",
+            "2.6",
+            "2.7",
+            "3.0",
+            head,
+            jruby,
+            jruby-head,
+            truffleruby,
+            truffleruby-head,
+          ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install ffmpeg imagemagick gsfonts
+          bundle install --jobs $(nproc)
+      - name: Run tests
+        run: MT_CPU=$(nproc) bundle exec rake

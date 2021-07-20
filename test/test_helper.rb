@@ -5,8 +5,8 @@ require 'minitest/autorun'
 class Minitest::Test
   parallelize_me!
 
-  def open_test_file(filename, ...)
-    File.open("#{__dir__}/files/#{filename}", ...)
+  def open_test_file(filename, *args, **keys, &block)
+    File.open("#{__dir__}/files/#{filename}", *args, **keys, &block)
   end
 
   def expand_test_file_path(filename)
