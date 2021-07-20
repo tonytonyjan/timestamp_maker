@@ -4,6 +4,7 @@ require 'json'
 require 'time'
 require 'open3'
 require 'English'
+require 'tzinfo'
 
 module TimestampMaker
   module VideoTimestamper
