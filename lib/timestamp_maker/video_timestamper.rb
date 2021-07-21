@@ -44,25 +44,7 @@ module TimestampMaker
           #{output_path}
         ]
 
-        tz =
-          case time.zone
-          when TZInfo::Timezone then time.zone.name
-          when String
-            begin
-              TZInfo::Timezone.get(time.zone).name
-            rescue TZInfo::InvalidTimezoneIdentifier
-              time.strftime('%::z').then do |string|
-                sign =
-                  case string[0]
-                  when '+' then '-'
-                  when '-' then '+'
-                  else raise "Cannot parse time zone: #{string}"
-                  end
-                "#{sign}#{string[1..-1]}"
-              end
-            end
-          else raise TypeError
-          end
+        tz = tz_env_string(time)
         raise "Command failed with exit #{$CHILD_STATUS.exitstatus}: #{command.first}" unless system({ 'TZ' => tz }, *command)
       end
 
@@ -83,6 +65,18 @@ module TimestampMaker
       end
 
       private
+
+      def tz_env_string(time)
+        return time.zone.name if time.zone.is_a? TZInfo::Timezone
+
+        TZInfo::Timezone.get(time.zone).name
+      rescue TZInfo::InvalidTimezoneIdentifier
+        offset = time.utc_offset
+        tz_string = "#{offset / 3600}:#{offset % 3600 / 16}:#{offset % 60}"
+        return "+#{tz_string}" if offset.negative?
+
+        "-#{tz_string}"
+      end
 
       def coord_map(coordinate_origin, x, y)
         case coordinate_origin
