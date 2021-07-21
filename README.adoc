@@ -7,9 +7,12 @@ image::https://github.com/tonytonyjan/timestamp_maker/actions/workflows/test.yml
 
 == Prerequisite
 
-. https://ffmpeg.org/[FFmpeg]
+. https://ffmpeg.org/[FFmpeg] with both https://www.freedesktop.org/wiki/Software/fontconfig/[Fontconfig] and https://www.freetype.org/[FreeType] enabled
 . https://imagemagick.org/index.php[ImageMagick]
 . https://www.iana.org/time-zones[tzdata]
+
+By default, ImageMagick uses https://en.wikipedia.org/wiki/Helvetica[Helvetica] font.
+You should either install it or use `--font-familiy` to speicy another font in your system.
 
 == Installation
 
