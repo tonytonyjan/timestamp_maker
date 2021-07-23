@@ -63,7 +63,7 @@ module TimestampMaker
 
       time_offset_string = parsed['OffsetTimeOriginal'] || parsed['OffsetTimeDigitized'] || parsed['OffsetTime'] || 'Z'
 
-      Time.strptime("#{time_string} #{time_offset_string}", '%Y:%m:%d %H:%M:%S %Z')
+      Time.strptime("#{time_string} #{time_offset_string}", '%Y:%m:%d %H:%M:%S %z')
     end
   end
 end
