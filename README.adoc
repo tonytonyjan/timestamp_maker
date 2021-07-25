@@ -79,5 +79,5 @@ Run `timestamp --help` for more information.
 ----
 require 'timestamp_maker'
 
-TimestampMaker.add_timestamp(input_path, output_path)
+TimestampMaker.new.add_timestamp(input_path, output_path)
 ----

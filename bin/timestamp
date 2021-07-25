@@ -80,7 +80,7 @@ end
 input = ARGV.shift
 output = ARGV.shift
 
-TimestampMaker.add_timestamp(
+TimestampMaker.new.add_timestamp(
   input,
   output,
   format: options[:format],

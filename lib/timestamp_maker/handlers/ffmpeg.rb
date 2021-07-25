@@ -6,9 +6,13 @@ require 'open3'
 require 'English'
 require 'tzinfo'
 
-module TimestampMaker
-  module VideoTimestamper
-    class << self
+class TimestampMaker
+  module Handlers
+    class Ffmpeg
+      def accept?(mime_type)
+        mime_type.start_with?('video/')
+      end
+
       def add_timestamp(
         input_path,
         output_path,
@@ -45,7 +49,8 @@ module TimestampMaker
         ]
 
         tz = tz_env_string(time)
-        raise "Command failed with exit #{$CHILD_STATUS.exitstatus}: #{command.first}" unless system({ 'TZ' => tz }, *command)
+        raise "Command failed with exit #{$CHILD_STATUS.exitstatus}: #{command.first}" unless system({ 'TZ' => tz },
+                                                                                                     *command)
       end
 
       def creation_time(input_path)
