@@ -16,7 +16,8 @@ options = {
   coordinate_origin: 'top-left',
   x: 32,
   y: 32,
-  font_padding: 8
+  font_padding: 8,
+  require: []
 }
 
 option_parser = OptionParser.new do |parser|
@@ -69,6 +70,10 @@ option_parser = OptionParser.new do |parser|
   parser.on('--font-padding NUM', Integer, 'Defaults to 8.') do |value|
     options[:font_padding] = value
   end
+
+  parser.on('-r LIB', '--require LIB', Array, 'Comma-separated Ruby libs') do |value|
+    options[:require] = value
+  end
 end
 option_parser.parse!
 
@@ -80,7 +85,8 @@ end
 input = ARGV.shift
 output = ARGV.shift
 
-TimestampMaker.new.add_timestamp(
+options[:require].each { |i| require i }
+TimestampMaker.instance.add_timestamp(
   input,
   output,
   format: options[:format],

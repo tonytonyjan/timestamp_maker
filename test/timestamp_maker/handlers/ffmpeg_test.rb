@@ -2,6 +2,7 @@
 
 require 'test_helper'
 require 'timestamp_maker/handlers/ffmpeg'
+require 'timestamp_maker/time_zone_lookupers/mock'
 require 'tempfile'
 
 class TimestampMaker
@@ -9,7 +10,9 @@ class TimestampMaker
     class FfmpegTest < Minitest::Test
       def test_add_timestamp_would_not_raise_error
         Tempfile.open(['', '.mp4']) do |output_file|
-          Ffmpeg.new.add_timestamp(
+          Ffmpeg.new(
+            time_zone_lookuper: TimeZoneLookupers::Mock.new('Asia/Taipei')
+          ).add_timestamp(
             expand_test_file_path('PXL_20210719_003016559.mp4'),
             output_file.path,
             Time.at(0),
@@ -32,7 +35,9 @@ class TimestampMaker
         time = Time.at(0)
         time.stub :zone, nil do
           Tempfile.open(['', '.mp4']) do |output_file|
-            Ffmpeg.new.add_timestamp(
+            Ffmpeg.new(
+              time_zone_lookuper: TimeZoneLookupers::Mock.new('Asia/Taipei')
+            ).add_timestamp(
               expand_test_file_path('PXL_20210719_003016559.mp4'),
               output_file.path,
               time,
@@ -53,7 +58,9 @@ class TimestampMaker
       def test_creation_time
         assert_equal(
           Time.new(2021, 7, 19, 0, 30, 29, 0),
-          Ffmpeg.new.creation_time(expand_test_file_path('PXL_20210719_003016559.mp4'))
+          Ffmpeg.new(
+            time_zone_lookuper: TimeZoneLookupers::Mock.new('Asia/Taipei')
+          ).creation_time(expand_test_file_path('PXL_20210719_003016559.mp4'))
         )
       end
     end

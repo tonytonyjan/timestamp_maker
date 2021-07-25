@@ -9,6 +9,13 @@ require 'tzinfo'
 class TimestampMaker
   module Handlers
     class Ffmpeg
+
+      attr_accessor :time_zone_lookuper
+
+      def initialize(time_zone_lookuper:)
+        @time_zone_lookuper = time_zone_lookuper
+      end
+
       def accept?(mime_type)
         mime_type.start_with?('video/')
       end
@@ -56,7 +63,7 @@ class TimestampMaker
       def creation_time(input_path)
         command = %W[
           ffprobe -v warning -print_format json
-          -show_entries format_tags=creation_time,com.apple.quicktime.creationdate
+          -show_entries format_tags=creation_time,com.apple.quicktime.creationdate,location
           #{input_path}
         ]
         stdout_string, status = Open3.capture2(*command)
@@ -66,10 +73,28 @@ class TimestampMaker
         iso8601_string = parsed['format']['tags']['com.apple.quicktime.creationdate'] || parsed['format']['tags']['creation_time']
         raise 'Cannot find creation time' if iso8601_string.nil?
 
-        Time.iso8601(iso8601_string)
+        time = Time.iso8601(iso8601_string)
+
+        iso6709_string = parsed['format']['tags']['location']
+        if iso6709_string && (time_zone = retrieve_time_zone_from_iso6709(iso6709_string))
+          begin
+            return Time.at(time, in: TZInfo::Timezone.get(time_zone))
+          rescue TZInfo::InvalidTimezoneIdentifier
+            warn "Can not find time zone: #{time_zone}"
+          end
+        end
+
+        time
       end
 
       private
+
+      def retrieve_time_zone_from_iso6709(string)
+        data = string.match(/([+-]\d*\.?\d*)([+-]\d*\.?\d*)/)
+        latitude = data[1].to_f
+        longitude = data[2].to_f
+        time_zone_lookuper.lookup(latitude: latitude, longitude: longitude)
+      end
 
       def tz_env_string(time)
         return time.zone.name if time.zone.is_a? TZInfo::Timezone

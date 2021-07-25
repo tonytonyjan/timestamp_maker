@@ -4,6 +4,7 @@ require 'pathname'
 require 'timestamp_maker/handlers/image_magick'
 require 'timestamp_maker/handlers/ffmpeg'
 require 'timestamp_maker/mime_recognizers/marcel'
+require 'timestamp_maker/time_zone_lookupers/wheretz'
 require 'tzinfo'
 
 class TimestampMaker
@@ -16,9 +17,21 @@ class TimestampMaker
 
   attr_accessor :mime_recognizer, :handlers
 
+  singleton_class.attr_writer :instance
+  def self.instance
+    @instance ||= new
+  end
+
   def initialize(
     mime_recognizer: MimeRecognizers::Marcel.new,
-    handlers: [Handlers::ImageMagick.new, Handlers::Ffmpeg.new]
+    handlers: [
+      Handlers::ImageMagick.new(
+        time_zone_lookuper: TimeZoneLookupers::Wheretz.new
+      ),
+      Handlers::Ffmpeg.new(
+        time_zone_lookuper: TimeZoneLookupers::Wheretz.new
+      )
+    ]
   )
     @mime_recognizer = mime_recognizer
     @handlers = handlers
