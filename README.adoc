@@ -2,6 +2,12 @@
 
 `timestamp_maker` is a command-line tool that adds timestamp on assets/videos based on their creation time.
 
+It looks up the following metadata (ex. EXIF) of the file:
+
+. Creation time
+. GPS coordinate
+. Time offset
+
 [link="https://github.com/tonytonyjan/timestamp_maker/actions/workflows/test.yml"]
 image::https://github.com/tonytonyjan/timestamp_maker/actions/workflows/test.yml/badge.svg[]
 
