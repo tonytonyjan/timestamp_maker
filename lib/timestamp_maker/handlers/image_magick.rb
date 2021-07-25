@@ -73,11 +73,11 @@ class TimestampMaker
         time_string = parsed['DateTimeOriginal'] || parsed['DateTimeDigitized'] || parsed['DateTime']
         raise 'Cannot find creation time' if time_string.nil?
 
-        time_arguments = time_string.split(/[: ]/)
+        time_arguments = time_string.split(/[: ]/).map(&:to_i)
 
         if (time_zone = retrieve_time_zone_by_coordinate(parsed))
           begin
-            return Time.new(*time_arguments, TZInfo::Timezone.get(time_zone))
+            return TZInfo::Timezone.get(time_zone).local_time(*time_arguments)
           rescue TZInfo::InvalidTimezoneIdentifier
             warn "Can not find time zone: #{time_zone}"
           end

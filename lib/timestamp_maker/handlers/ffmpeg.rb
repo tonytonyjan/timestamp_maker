@@ -78,7 +78,7 @@ class TimestampMaker
         iso6709_string = parsed['format']['tags']['location']
         if iso6709_string && (time_zone = retrieve_time_zone_from_iso6709(iso6709_string))
           begin
-            return Time.at(time, in: TZInfo::Timezone.get(time_zone))
+            return TZInfo::Timezone.get(time_zone).to_local(time)
           rescue TZInfo::InvalidTimezoneIdentifier
             warn "Can not find time zone: #{time_zone}"
           end
