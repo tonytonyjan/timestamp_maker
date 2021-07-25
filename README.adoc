@@ -73,11 +73,81 @@ It handles daylight saving time for you. :)
 
 Run `timestamp --help` for more information.
 
-=== Use with Ruby
+=== Configure `TimestampMaker` instance
+
+[source,sh]
+----
+timestamp -r ./config.rb in.mp4 out.mp4
+----
+
+.`config.rb`
+[source,ruby]
+----
+TimestampMaker.instance =
+  TimestampMaker.new(mime_recognizer: @my_recognizer)
+----
+
+== API
 
 [source,ruby]
 ----
 require 'timestamp_maker'
 
 TimestampMaker.new.add_timestamp(input_path, output_path)
+----
+
+The snippet above is equivalent to:
+
+[source,ruby]
+----
+require 'timestamp_maker'
+
+TimestampMaker.new.add_timestamp(
+  input_path, output_path,
+  format: '%Y-%m-%d %H:%M:%S',
+  time: nil,
+  font_size: 32,
+  font_family: 'Sans',
+  font_color: 'white',
+  background_color: '#000000B3',
+  time_zone: nil,
+  coordinate_origin: 'top-left',
+  x: 32,
+  y: 32,
+  font_padding: 8
+)
+----
+
+=== Customize MIME Type Recognizer
+
+[source,ruby]
+----
+class FileMime
+  def recognize(path)
+    command = %W[file --brief --mime-type #{path}]
+    stdout_string, status = Open3.capture2(*command)
+    stdout_string
+  end
+end
+TimestampMaker.new(mime_recognizer: FileMime.new)
+----
+
+=== Customize Timezone Lookuper
+
+By default, `timestamp_maker` uses https://github.com/zverok/wheretz[`wheretz`] to find IANA timezone by given latitude/longitude offline.
+
+Unfortunately, `wheretz` is not under active maintenance and its' database would outdate some day.
+We can replae `wheretz` to other more reliable tools like GeoName, for example:
+
+[source,ruby]
+----
+require 'timestamp_maker/time_zone_lookupers/geo_name'
+TM = TimestampMaker
+lookup = TM::TimeZoneLookupers::GeoName.new(username: 'YOUR_USERNAME')
+TM.new(
+  handlers: [
+    TM::Handlers::ImageMagick.new(time_zone_lookuper: lookup),
+    TM::Handlers::Ffmpeg.new(time_zone_lookuper: lookup)
+  ]
+)
 ----
